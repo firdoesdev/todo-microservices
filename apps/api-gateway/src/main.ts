@@ -5,6 +5,7 @@ import {
   FastifyAdapter,
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
+import 'dotenv/config';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -14,11 +15,9 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
   app.setGlobalPrefix('api');
-  await app.listen(process.env.API_GATEWAY_PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3000);
 
-  logger.log(
-    `API Gateway is running on port ${process.env.API_GATEWAY_PORT ?? 3000}`,
-  );
+  logger.log(`API Gateway is running on port ${process.env.PORT}`);
 }
 
 bootstrap().catch((error) => {

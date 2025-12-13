@@ -1,6 +1,7 @@
 import Image, { type ImageProps } from "next/image";
 import { Button } from "@repo/ui/button";
 import styles from "./page.module.css";
+import{ Suspense} from 'react'
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
@@ -17,6 +18,20 @@ const ThemeImage = (props: Props) => {
     </>
   );
 };
+
+const ListUsers = async () =>{
+  const users = await fetch('http://localhost:3000/api/iam/users')
+  .then(response => response.json())
+
+  console.log('Users:', users);
+
+  return (
+    <div>
+      <h2>Users: {users ? users.length : 0}</h2>
+      <pre>{JSON.stringify(users, null, 2)}</pre>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
@@ -66,6 +81,10 @@ export default function Home() {
         <Button appName="web" className={styles.secondary}>
           Open alert
         </Button>
+        <Suspense fallback={<div>Loading users...</div>}>
+
+        <ListUsers />
+        </Suspense>
       </main>
       <footer className={styles.footer}>
         <a
