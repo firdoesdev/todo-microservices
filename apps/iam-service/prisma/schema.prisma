@@ -7,6 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  schemas = ["iam"] // Specify the schema name here
 }
 
 model User {
@@ -16,4 +17,6 @@ model User {
   name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+  @@schema("iam")  // Specify the schema name here
 }
